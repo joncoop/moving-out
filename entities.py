@@ -21,6 +21,10 @@ class Player(pygame.sprite.Sprite):
 
         self.my_item = None
     
+    def go(self, x, y):
+        self.vx = self.speed * x
+        self.vy = self.speed * y
+        
     def go_left(self):
         self.vx = -1 * self.speed
     

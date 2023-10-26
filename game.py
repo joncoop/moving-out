@@ -2,6 +2,7 @@
 import pygame
 import entities
 import math
+import xbox360_controller
 
 # Initialize game engine
 pygame.init()
@@ -44,13 +45,14 @@ class Game:
         self.running = True
         self.new_game()
 
+        self.p1_controller = xbox360_controller.Controller()
+
     def new_game(self):
         self.players = pygame.sprite.Group()
         self.items = pygame.sprite.Group()
         self.obstacles = pygame.sprite.Group()
         self.goal = pygame.sprite.GroupSingle()
 
-        # Make game objects
         self.p1 = entities.Player([700, 525, 50, 50], RED)
         self.players.add(self.p1)
 
@@ -140,6 +142,21 @@ class Game:
                     if event.key == pygame.K_r:
                         self.new_game()
 
+            elif event.type == pygame.JOYBUTTONDOWN:
+                if self.current_scene == START:
+                    if event.button == xbox360_controller.START:
+                        self.start()
+                elif self.current_scene == PLAYING:
+                    if event.button == xbox360_controller.A:
+                        if self.p1.my_item == None:
+                            self.p1.pick_up(self.items)
+                        else:
+                            self.p1.drop()
+                elif self.current_scene in [WIN, LOSE]:
+                    if event.button == xbox360_controller.START:
+                        self.new_game()
+
+        # keyboard controls
         pressed = pygame.key.get_pressed()
 
         if pressed[pygame.K_LEFT]:
@@ -155,6 +172,10 @@ class Game:
              self.p1.go_down()
         else:
              self.p1.stop_y()
+
+        # game controller
+        left_x, left_y = self.p1_controller.get_left_stick()
+        self.p1.go(left_x, left_y)
 
     def update(self):
         if self.current_scene == PLAYING:
