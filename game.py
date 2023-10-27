@@ -40,23 +40,23 @@ class Game:
         self.obstacles = pygame.sprite.Group()
         self.goal = pygame.sprite.GroupSingle()
 
-        self.p1 = Player(self, [700, 525, 50, 50], RED)
+        self.p1 = Player(self, [704, 512, 64, 64], BLUE)
         self.players.add(self.p1)
 
-        wall1 = Obstacle(self, [100, 200, 400, 25], WHITE)
-        wall2 = Obstacle(self, [100, 225, 25, 275], WHITE)
-        wall3 = Obstacle(self, [475, 225, 25, 275], WHITE)
-        wall4 = Obstacle(self, [100, 500, 100, 25], WHITE)
-        wall5 = Obstacle(self, [400, 500, 100, 25], WHITE)
-        tree = Obstacle(self, [400, 50, 50, 50], GREEN)
+        wall1 = Obstacle(self, [96, 224, 512, 32], WHITE)
+        wall2 = Obstacle(self, [96, 256, 32, 256], WHITE)
+        wall3 = Obstacle(self, [576, 256, 32, 256], WHITE)
+        wall4 = Obstacle(self, [96, 512, 192, 32], WHITE)
+        wall5 = Obstacle(self, [416, 512, 192, 32], WHITE)
+        tree = Obstacle(self, [640, 64, 96, 96], DARK_GREEN)
         self.obstacles.add(wall1, wall2, wall3, wall4, wall5, tree)
 
-        self.truck = Goal(self, [600, 250, 150, 200], GRAY)
+        self.truck = Goal(self, [672, 288, 128, 192], RED)
         self.goal.add(self.truck)
 
-        i1 = Item(self, [400, 300, 25, 25], YELLOW)
-        i2 = Item(self, [100, 50, 25, 25], YELLOW)
-        i3 = Item(self, [200, 400, 25, 25], YELLOW)
+        i1 = Item(self, [400, 300, 48, 48], BROWN)
+        i2 = Item(self, [100, 50, 48, 48], BROWN)
+        i3 = Item(self, [200, 400, 48, 48], BROWN)
         self.items.add(i1, i2, i3)
 
         self.current_scene = Game.START
@@ -115,7 +115,10 @@ class Game:
                 self.time_remaining -= 1
 
     def render(self):
-        self.screen.fill(BLACK)
+        self.screen.fill(GREEN)
+        pygame.draw.rect(self.screen, GRAY, [640, 256, 192, 352])
+        pygame.draw.rect(self.screen, GRAY, [0, 608, 960, 32])
+
         self.obstacles.draw(self.screen)
         self.goal.draw(self.screen)
         self.players.draw(self.screen)

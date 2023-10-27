@@ -6,9 +6,9 @@ from settings import *
 pygame.init()
 
 # Fonts
-FONT_SM = pygame.font.Font(None, 48)
-FONT_MD = pygame.font.Font(None, 64)
-FONT_LG = pygame.font.Font(None, 96)
+FONT_SM = pygame.font.Font('assets/fonts/Splatch.ttf', 24)
+FONT_MD = pygame.font.Font('assets/fonts/Splatch.ttf', 48)
+FONT_LG = pygame.font.Font('assets/fonts/Splatch.ttf', 64)
 
 class TitleScreen:
 
@@ -19,10 +19,17 @@ class TitleScreen:
         pass
 
     def draw(self, surface):
-        text = FONT_LG.render(TITLE, True, BLUE)
+        surface.fill(RED)
+        
+        text = FONT_LG.render(TITLE, True, WHITE)
         rect = text.get_rect()
-        rect.center = WIDTH // 2, HEIGHT // 2
+        rect.midbottom = WIDTH // 2, HEIGHT // 2 - 8
         surface.blit(text, rect)
+
+        sub_text = FONT_SM.render("Press START.", True, WHITE)
+        rect = sub_text.get_rect()
+        rect.midtop = WIDTH // 2, HEIGHT // 2 + 8
+        surface.blit(sub_text, rect)
 
 
 class WinScreen:
@@ -34,10 +41,15 @@ class WinScreen:
         pass
 
     def draw(self, surface):
-        text = FONT_LG.render("You win!", True, BLUE)
+        text = FONT_MD.render("You win!", True, BLUE)
         rect = text.get_rect()
-        rect.center = WIDTH // 2, HEIGHT // 2
+        rect.midbottom = WIDTH // 2, HEIGHT // 2 - 8
         surface.blit(text, rect)
+
+        sub_text = FONT_SM.render("Press START.", True, BLUE)
+        rect = sub_text.get_rect()
+        rect.midtop = WIDTH // 2, HEIGHT // 2 + 8
+        surface.blit(sub_text, rect)
 
 
 class LoseScreen:
@@ -49,10 +61,15 @@ class LoseScreen:
         pass
 
     def draw(self, surface):
-        text = FONT_LG.render("Time's up.", True, BLUE)
+        text = FONT_MD.render("Time's up.", True, BLUE)
         rect = text.get_rect()
-        rect.center = WIDTH // 2, HEIGHT // 2
+        rect.midbottom = WIDTH // 2, HEIGHT // 2 - 8
         surface.blit(text, rect)
+
+        sub_text = FONT_SM.render("Press START.", True, BLUE)
+        rect = sub_text.get_rect()
+        rect.midtop = WIDTH // 2, HEIGHT // 2 + 8
+        surface.blit(sub_text, rect)
 
 
 class HUD:
