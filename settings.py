@@ -1,6 +1,6 @@
 # Screen settings
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 960
+HEIGHT = 640
 TITLE = "Moving Out"
 FPS = 60
 

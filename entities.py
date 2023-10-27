@@ -3,7 +3,7 @@ import random
 
 from settings import *
 
-class Player(pygame.sprite.Sprite):
+class Entity(pygame.sprite.Sprite):
 
     def __init__(self, game, xywh, color):
         super().__init__()
@@ -15,6 +15,12 @@ class Player(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.topleft = x, y
+
+
+class Player(Entity):
+
+    def __init__(self, game, xywh, color):
+        super().__init__(game, xywh, color)
 
         self.vx = 0
         self.vy = 0
@@ -97,10 +103,10 @@ class Player(pygame.sprite.Sprite):
         self.carry_item()
 
 
-class Obstacle(pygame.sprite.Sprite):
+class Obstacle(Entity):
 
     def __init__(self, game, xywh, color):
-        super().__init__()
+        super().__init__(game, xywh, color)
 
         self.game = game
 
@@ -111,10 +117,10 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.topleft = x, y
 
 
-class Item(pygame.sprite.Sprite):
+class Item(Entity):
 
     def __init__(self, game, xywh, color):
-        super().__init__()
+        super().__init__(game, xywh, color)
 
         self.game = game
 
@@ -187,10 +193,10 @@ class Item(pygame.sprite.Sprite):
         self.check_boundaries()
 
 
-class Goal(pygame.sprite.Sprite):
+class Goal(Entity):
 
     def __init__(self, game, xywh, color):
-        super().__init__()
+        super().__init__(game, xywh, color)
 
         self.game = game
 
