@@ -43,10 +43,14 @@ class Game:
         self.sky_img = pygame.image.load('assets/images/backgrounds/sky1.png').convert_alpha()
         self.truck_sound = pygame.mixer.Sound('assets/sounds/start_and_drive_away.ogg')
 
-        self.man_img = pygame.image.load('assets/images/characters/manBlue_hold.png').convert_alpha()
+        self.man_img = pygame.image.load('assets/images/characters/man_blue.png').convert_alpha()
 
-        self.box_img = pygame.image.load('assets/images/furniture/tile_130.png').convert_alpha()
-        self.chair_img = pygame.image.load('assets/images/furniture/tile_451.png').convert_alpha()
+        self.large_box_img = pygame.image.load('assets/images/furniture/box_large.png').convert_alpha()
+        self.small_box_img = pygame.image.load('assets/images/furniture/box_small.png').convert_alpha()
+        self.chair_img = pygame.image.load('assets/images/furniture/chair_blue.png').convert_alpha()
+
+        self.tree_img = pygame.image.load('assets/images/tiles/tree.png').convert_alpha()
+        self.bush_img = pygame.image.load('assets/images/tiles/bush.png').convert_alpha()
 
         self.beep_sound = pygame.mixer.Sound('assets/sounds/beep.ogg')
 
@@ -56,7 +60,7 @@ class Game:
         self.obstacles = pygame.sprite.Group()
         self.goal = pygame.sprite.GroupSingle()
 
-        self.p1 = Player(self, [704, 512, 48, 48], BLUE)
+        self.p1 = Player(self, [704, 512, 48, 48], BLUE, self.man_img)
         self.players.add(self.p1)
 
         wall1 = Obstacle(self, [96, 224, 512, 32], WHITE)
@@ -64,15 +68,20 @@ class Game:
         wall3 = Obstacle(self, [576, 256, 32, 256], WHITE)
         wall4 = Obstacle(self, [96, 512, 192, 32], WHITE)
         wall5 = Obstacle(self, [416, 512, 192, 32], WHITE)
-        tree = Obstacle(self, [640, 64, 96, 96], DARK_GREEN)
-        self.obstacles.add(wall1, wall2, wall3, wall4, wall5, tree)
+
+        tree1 = Obstacle(self, [640, 64, 96, 96], DARK_GREEN, self.tree_img)
+        bush1 = Obstacle(self, [256, 128, 96, 96], DARK_GREEN, self.bush_img)
+        bush2 = Obstacle(self, [832, 512, 96, 96], DARK_GREEN, self.bush_img)
+
+        self.obstacles.add(wall1, wall2, wall3, wall4, wall5)
+        self.obstacles.add(tree1, bush1, bush2)
 
         self.truck = Goal(self, [672, 288, 128, 192], RED)
         self.goal.add(self.truck)
 
-        i1 = Item(self, [400, 300, 48, 48], BROWN)
-        i2 = Item(self, [100, 50, 48, 48], BROWN)
-        i3 = Item(self, [200, 400, 48, 48], BROWN)
+        i1 = Item(self, [400, 300, 48, 48], BROWN, self.large_box_img)
+        i2 = Item(self, [100, 50, 48, 48], BROWN, self.small_box_img)
+        i3 = Item(self, [200, 400, 48, 48], BROWN, self.chair_img)
         self.items.add(i1, i2, i3)
 
         self.current_scene = Game.START
@@ -82,6 +91,7 @@ class Game:
 
     def start(self):
         self.current_scene = Game.PLAYING
+        pygame.mixer.stop()
 
     def win(self):
         self.current_scene = Game.WIN
