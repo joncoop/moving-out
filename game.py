@@ -33,6 +33,9 @@ class Game:
         self.win_screen = WinScreen(self)
         self.lose_screen = LoseScreen(self)
         self.hud = HUD(self)
+
+        self.grid = Grid(self)
+        self.grid_on = False
         
     def new_game(self):
         self.players = pygame.sprite.Group()
@@ -85,6 +88,11 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
+
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_g:
+                    self.grid_on = not self.grid_on
+
             elif event.type == pygame.JOYBUTTONDOWN:
                 if self.current_scene == Game.START:
                     if event.button == xbox360_controller.START:
@@ -131,6 +139,9 @@ class Game:
             self.win_screen.draw(self.screen)
         elif self.current_scene == Game.LOSE:
             self.lose_screen.draw(self.screen)
+
+        if self.grid_on:
+            self.grid.draw(self.screen)
     
     def run(self):
         while self.running:

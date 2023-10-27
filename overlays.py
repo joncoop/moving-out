@@ -20,7 +20,7 @@ class TitleScreen:
 
     def draw(self, surface):
         surface.fill(RED)
-        
+
         text = FONT_LG.render(TITLE, True, WHITE)
         rect = text.get_rect()
         rect.midbottom = WIDTH // 2, HEIGHT // 2 - 8
@@ -84,7 +84,27 @@ class HUD:
         minutes = (math.ceil(self.game.time_remaining / FPS)) // 60
         seconds = (math.ceil(self.game.time_remaining / FPS)) % 60
 
-        text = FONT_SM.render(f"{minutes}:{seconds:02d}", True, BLUE)
+        if minutes == 0 and seconds <= 10:
+            time_color == RED
+        else:
+            time_color = BLACK
+
+        text = FONT_SM.render(f"{minutes}:{seconds:02d}", True, time_color)
         rect = text.get_rect()
         rect.topleft = 16, 16
         surface.blit(text, rect)
+
+
+class Grid:
+
+    def __init__(self, game):
+        self.game = game
+
+        self.size = 32
+
+    def draw(self, surface):
+        for x in range(self.size, WIDTH, self.size):
+            pygame.draw.line(surface, BLACK, [x, 0], [x, HEIGHT])
+            
+        for y in range(self.size, HEIGHT, self.size):
+            pygame.draw.line(surface, BLACK, [0, y], [WIDTH, y])
