@@ -19,8 +19,14 @@ class Entity(pygame.sprite.Sprite):
 
 class Player(Entity):
 
-    def __init__(self, game, xywh, color):
+    def __init__(self, game, xywh, color, image=None):
         super().__init__(game, xywh, color)
+
+        # Override entity constructor until all objects are PNGs
+        if image is not None:
+            self.image = image
+            self.rect = image.get_rect()
+            self.rect.topleft = xywh[2:]
 
         self.vx = 0
         self.vy = 0
@@ -108,27 +114,17 @@ class Obstacle(Entity):
     def __init__(self, game, xywh, color):
         super().__init__(game, xywh, color)
 
-        self.game = game
-
-        x, y, w, h = xywh
-        self.image = pygame.Surface([w, h])
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.rect.topleft = x, y
-
 
 class Item(Entity):
 
-    def __init__(self, game, xywh, color):
+    def __init__(self, game, xywh, color, image=None):
         super().__init__(game, xywh, color)
 
-        self.game = game
-
-        x, y, w, h = xywh
-        self.image = pygame.Surface([w, h])
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.rect.topleft = x, y
+        # Override entity constructor until all objects are PNGs
+        if image is not None:
+            self.image = image
+            self.rect = image.get_rect()
+            self.rect.topleft = xywh[2:]
 
         self.vx = 0
         self.vy = 0

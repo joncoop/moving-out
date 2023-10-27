@@ -23,10 +23,8 @@ class Game:
         self.screen = pygame.display.set_mode([WIDTH, HEIGHT])
         pygame.display.set_caption(TITLE)
         self.clock = pygame.time.Clock()
-
         self.running = True
-        self.new_game()
-
+        
         self.p1_controller = xbox360_controller.Controller()
 
         self.title_screen = TitleScreen(self)
@@ -36,14 +34,29 @@ class Game:
 
         self.grid = Grid(self)
         self.grid_on = False
-        
+
+        self.load_assets()
+        self.new_game()
+
+    def load_assets(self):
+        self.van_img = pygame.image.load('assets/images/truck_with_boxes.png').convert_alpha()
+        self.sky_img = pygame.image.load('assets/images/backgrounds/sky1.png').convert_alpha()
+        self.truck_sound = pygame.mixer.Sound('assets/sounds/start_and_drive_away.ogg')
+
+        self.man_img = pygame.image.load('assets/images/characters/manBlue_hold.png').convert_alpha()
+
+        self.box_img = pygame.image.load('assets/images/furniture/tile_130.png').convert_alpha()
+        self.chair_img = pygame.image.load('assets/images/furniture/tile_451.png').convert_alpha()
+
+        self.beep_sound = pygame.mixer.Sound('assets/sounds/beep.ogg')
+
     def new_game(self):
         self.players = pygame.sprite.Group()
         self.items = pygame.sprite.Group()
         self.obstacles = pygame.sprite.Group()
         self.goal = pygame.sprite.GroupSingle()
 
-        self.p1 = Player(self, [704, 512, 64, 64], BLUE)
+        self.p1 = Player(self, [704, 512, 48, 48], BLUE)
         self.players.add(self.p1)
 
         wall1 = Obstacle(self, [96, 224, 512, 32], WHITE)
@@ -64,6 +77,8 @@ class Game:
 
         self.current_scene = Game.START
         self.time_remaining = 30 * FPS
+
+        self.title_screen.reset()
 
     def start(self):
         self.current_scene = Game.PLAYING
@@ -122,10 +137,20 @@ class Game:
             else:
                 self.time_remaining -= 1
 
+                ten_seconds_remain = self.time_remaining <= 10 * FPS
+                even_second = self.time_remaining % FPS == 0
+
+                if ten_seconds_remain and even_second:
+                    self.beep_sound.play()
+        
+        if self.current_scene == Game.START:
+            self.title_screen.update()
+
     def render(self):
         self.screen.fill(GREEN)
         pygame.draw.rect(self.screen, GRAY, [640, 256, 192, 352])
         pygame.draw.rect(self.screen, GRAY, [0, 608, 960, 32])
+        pygame.draw.rect(self.screen, DARK_BROWN, [96, 224, 512, 320])
 
         self.obstacles.draw(self.screen)
         self.goal.draw(self.screen)
