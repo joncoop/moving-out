@@ -24,11 +24,11 @@ class TitleScreen:
     def update(self):
         self.time_elapsed += 1
 
-        if self.time_elapsed == 90:
+        if self.time_elapsed == 180:
             self.game.truck_sound.play()
 
-        if self.time_elapsed > 180:
-            self.truck_speed += 0.5
+        if self.time_elapsed > 270:
+            self.truck_speed += 0.75
             self.truck_speed = min(self.truck_speed, 15)
             self.truck_x += self.truck_speed
 

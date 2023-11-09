@@ -100,9 +100,9 @@ class Game:
         self.current_scene = Game.LOSE
 
     def all_items_in_goal(self):
-        for item in self.items:
-            if item.vx != 0 or item.vy != 0:
-                return False
+        #for item in self.items:
+        #    if item.vx != 0 or item.vy != 0:
+        #        return False
             
         items_in_goal = pygame.sprite.spritecollide(self.truck, self.items, False)
         held_items = self.p1.my_item
@@ -128,6 +128,9 @@ class Game:
                             self.p1.pick_up()
                         else:
                             self.p1.drop()
+                    elif event.button == xbox360_controller.B:
+                        self.p1.throw()
+                        
                 elif self.current_scene in [Game.WIN, Game.LOSE]:
                     if event.button == xbox360_controller.START:
                         self.new_game()
@@ -137,8 +140,8 @@ class Game:
 
     def update(self):
         if self.current_scene == Game.PLAYING:
+            self.items.update() # needs to be first to avoid glitch when item hits obstacle while carried
             self.players.update()
-            self.items.update()
             
             if self.all_items_in_goal():
                 self.win()
